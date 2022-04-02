@@ -179,7 +179,7 @@ export class UserControllerService {
             headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
-        return this.httpClient.get<Array<UserDTO>>(`${this.basePath}/v1/users`,
+        return this.httpClient.get<Array<UserDTO>>(`${this.basePath}/v1/users/all`,
             {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,

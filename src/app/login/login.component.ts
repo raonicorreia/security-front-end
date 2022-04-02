@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { LoginControllerService, UserCredentials } from 'lib/sec-api';
 import { catchError, of, tap } from 'rxjs';
 import { LoginService } from '../service/login/login.service';
+import { CommonService } from '../service/common/common.service';
 
 @Component({
   selector: 'app-login',
@@ -22,7 +23,8 @@ export class LoginComponent implements OnInit {
     private loginController: LoginControllerService,
     private loginService: LoginService,
     private formBuilder: FormBuilder,
-    private router: Router
+    private router: Router,
+    public common: CommonService
   ) {
     this.frmGroupLogin = this.formBuilder.group({
       username: [this.user.username, [Validators.required]],
@@ -38,12 +40,7 @@ export class LoginComponent implements OnInit {
         .loginUsingPOST(this.frmGroupLogin.value)
         .pipe(
           catchError((error) => {
-            console.log(error);
-            if (error.error.message) {
-              this.messageErro = error.error.message;
-            } else {
-              this.messageErro = error.message;
-            }
+            this.common.onError(error);
             return of({});
           })
         )
