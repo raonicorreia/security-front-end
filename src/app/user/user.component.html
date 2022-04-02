@@ -1,3 +1,99 @@
-<form>
-  <h1>Legal cheguei no usuário</h1>
-</form>
+<mat-card class="mat-card-margin">
+  <mat-toolbar class="mat-elevation-z5">
+    <mat-icon style="margin-right: 10px;">face</mat-icon>
+    <span>Lista de usuários</span>
+    <span class="spacer"></span>
+    <button mat-mini-fab color="primary" (click)="openInsert()">
+      <mat-icon>add</mat-icon>
+    </button>
+  </mat-toolbar>
+  <form *ngIf="!isInclusao">
+    <div>
+      <table mat-table [dataSource]="userList" class="mat-elevation-z5">
+
+        <ng-container matColumnDef="position">
+          <th mat-header-cell *matHeaderCellDef> No. </th>
+          <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef> Name </th>
+          <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="password">
+          <th mat-header-cell *matHeaderCellDef> password </th>
+          <td mat-cell *matCellDef="let element"> {{element.password}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="email">
+          <th mat-header-cell *matHeaderCellDef> email </th>
+          <td mat-cell *matCellDef="let element"> {{element.email}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef style="text-align: center;width: 100px;"> Ações </th>
+          <td mat-cell *matCellDef="let element" style="text-align: center;">
+            <button mat-icon-button color="secondary">
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button mat-icon-button color="secondary">
+              <mat-icon>remove_circle_outline</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+    </div>
+  </form>
+  <form *ngIf="isInclusao" [formGroup]="frmUser">
+    <mat-card class="mat-elevation-z5">
+      <mat-form-field class="mat-form-field" appearance="fill">
+        <mat-label>Nome do usuário</mat-label>
+        <input type="text" matInput formControlName="name" required>
+        <mat-error *ngIf="frmUser.get('name')">
+          Usuário deverá ser informado
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field class="mat-form-field" appearance="fill">
+        <mat-label>Email</mat-label>
+        <input type="text" matInput formControlName="email" required>
+        <mat-error *ngIf="frmUser.get('email')">
+          Email deverá ser informado
+        </mat-error>
+      </mat-form-field>
+      <table>
+        <tr>
+          <td>
+            <mat-form-field class="mat-form-field" appearance="fill">
+              <mat-label>Login</mat-label>
+              <input type="text" matInput formControlName="username" required>
+              <mat-error *ngIf="frmUser.get('username')">
+                Login deverá ser informado
+              </mat-error>
+            </mat-form-field>
+          </td>
+          <td>
+            <mat-form-field class="mat-form-field" appearance="fill">
+              <mat-label>Senha</mat-label>
+              <input type="password" matInput formControlName="password" required>
+              <mat-error *ngIf="frmUser.get('password')">
+                Senha deverá ser informado
+              </mat-error>
+            </mat-form-field>
+          </td>
+        </tr>
+      </table>
+      <div style="width: 100%; display: flex;justify-content: right;">
+        <button mat-mini-fab color="primary" (click)="save()" style="margin: 5px;">
+          <mat-icon>save</mat-icon>
+        </button>
+        <button mat-mini-fab color="primary" (click)="closeInsert()" style="margin: 5px;">
+          <mat-icon>close</mat-icon>
+        </button>
+      </div>
+    </mat-card>
+  </form>
+</mat-card>

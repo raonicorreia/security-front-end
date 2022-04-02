@@ -24,6 +24,13 @@ export class LoginService {
     }
   }
 
+  public getToken(): String | null {
+    if (!this.isAutenticated()) {
+      this.router.navigate(['']);
+    }
+    return localStorage.getItem('token');
+  }
+
   constructor(
     private router: Router) { }
 

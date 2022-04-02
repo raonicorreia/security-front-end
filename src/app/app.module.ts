@@ -29,7 +29,7 @@ import { UserModule } from './user/user.module';
     ReactiveFormsModule,
     MatToolbarModule,
     MatIconModule,
-    HttpInterceptorModule
+    HttpInterceptorModule,
   ],
   providers: [LoginService],
   bootstrap: [AppComponent]
