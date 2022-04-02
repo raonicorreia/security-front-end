@@ -1,8 +1,9 @@
 <mat-toolbar color="primary" *ngIf="loginService.isAutenticated()">
   <span>Security API</span>
   <span class="spacer"></span>
-  <button (click)="loginService.logout()" mat-icon-button>
-    <mat-icon color="primary">login</mat-icon>
+  <button (click)="loginService.logout()" mat-icon-button style="margin-right: 20px;">
+    <mat-icon>login</mat-icon>
+    Sair
   </button>
 </mat-toolbar>
 <router-outlet>

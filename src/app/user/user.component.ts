@@ -1,7 +1,10 @@
-import { catchError, Observable, of, tap } from 'rxjs';
 import { Component, OnInit } from '@angular/core';
-import { UserControllerService, UserDTO } from 'lib/sec-api';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
+import { UserControllerService, UserDTO } from 'lib/sec-api';
+import { catchError, Observable, of, tap } from 'rxjs';
+import { CommonService } from '../service/common/common.service';
+import { ErrorDialogComponent } from '../shared/components/error-dialog/error-dialog.component';
 
 @Component({
   selector: 'app-user',
@@ -20,6 +23,7 @@ export class UserComponent implements OnInit {
   constructor(
       private userControllerService: UserControllerService,
       private formBuilder: FormBuilder,
+      public common: CommonService
       ) {
     this.getAllUsers();
     this.frmUser = this.createNewForm();
@@ -29,7 +33,7 @@ export class UserComponent implements OnInit {
     this.userList = this.userControllerService
       .getUsersUsingGET({name: '%'}).pipe(
         catchError(error => {
-          this.onError(error);
+          this.common.onError(error);
           return of([]);
         })
       );
@@ -68,7 +72,7 @@ export class UserComponent implements OnInit {
             this.closeInsert();
           }),
           catchError(error => {
-            this.onError(error)
+            this.common.onError(error);
             return of([]);
           })
         )
@@ -76,7 +80,4 @@ export class UserComponent implements OnInit {
     }
   }
 
-  onError(errorMsg: any) {
-
-  }
 }
