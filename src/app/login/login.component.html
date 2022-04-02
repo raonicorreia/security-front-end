@@ -1,0 +1,30 @@
+<form class="form" [formGroup]="frmGroupLogin" (ngSubmit)="onSubmit()">
+  <div class="card">
+    <mat-card class="mat-card">
+      <div class="title">
+        Olá, bem vindo ao Security API
+      </div>
+      <mat-form-field class="mat-form-field" appearance="fill">
+        <mat-label>Usuário</mat-label>
+        <input type="text" matInput placeholder="admin" formControlName="username" required>
+        <mat-error *ngIf="frmGroupLogin.get('username')">
+          Usuário deverá ser informado
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field class="mat-form-field" appearance="fill">
+        <mat-label>Senha</mat-label>
+        <input type="password" matInput placeholder="123@xxx*" formControlName="password" required>
+        <mat-error *ngIf="frmGroupLogin.get('password')">
+          Senha deverá ser informado
+        </mat-error>
+      </mat-form-field>
+      <br />
+      <br />
+      <button color="primary" style="width: 100%;" mat-raised-button>Acessar</button>
+      <br />
+    </mat-card>
+    {{ token }}
+    <br />
+    {{ messageErro }}
+  </div>
+</form>

@@ -1,0 +1,27 @@
+.form {
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  text-align: center;
+  height: 100%;
+  background-color: darkgray;
+}
+
+.title {
+  font-weight: bold;
+  padding: 25px;
+}
+
+.card {
+  min-width: 250px;
+  max-width: 450px;
+  width: 100%;
+}
+
+.mat-card {
+  background-color: rgb(240, 238, 238);
+}
+
+.mat-form-field {
+  width: 100%;
+}
