@@ -18,7 +18,8 @@ export class MyHttpInterceptor implements HttpInterceptor {
     if (!request.url.includes('/login')) {
       let token = 'Bearer ' + this.loginService.getToken();
       const authReq = request.clone({
-        headers: request.headers.set('Authorization', token)
+        headers: request.headers
+          .set('Authorization', token)
       });
       return next.handle(authReq);
     }
