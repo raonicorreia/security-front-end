@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
@@ -19,11 +20,12 @@ export class UserComponent implements OnInit {
   displayedColumns: String[] = ['position','name', 'email', 'actions'];
 
   isInclusao:boolean = false;
+  isEdit:boolean = false;
 
   constructor(
       private userControllerService: UserControllerService,
       private formBuilder: FormBuilder,
-      public common: CommonService
+      public common: CommonService,
       ) {
     this.getAllUsers();
     this.frmUser = this.createNewForm();
@@ -42,6 +44,7 @@ export class UserComponent implements OnInit {
   createNewForm(): FormGroup {
     this.user = {};
     return this.formBuilder.group({
+      id: [this.user.id],
       name: [this.user.name, [Validators.required]],
       email: [this.user.email, [Validators.required, Validators.email]],
       username: [this.user.username, [Validators.required]],
@@ -56,14 +59,50 @@ export class UserComponent implements OnInit {
     this.isInclusao = true;
   }
 
+  openEdit(param:UserDTO): void {
+    this.frmUser.reset(param);
+    this.isInclusao = true;
+    this.isEdit = true;
+  }
+
+  delete(param:number): void {
+    this.userControllerService.removeUsingDELETE1(param).pipe(
+      tap((data) => {
+        console.log(data);
+      }),
+      catchError(error => {
+        this.common.onError(error);
+        return of([]);
+      })
+    )
+    .subscribe();
+  }
+
   closeInsert(): void {
     this.isInclusao = !this.isInclusao;
+    this.isEdit = !this.isEdit;
     this.frmUser.reset();
   }
 
   save(): void {
     if (this.frmUser.valid) {
-      this.userControllerService
+      if (this.isEdit) {
+        this.userControllerService
+        .updateUsingPUT1(this.frmUser.value)
+        .pipe(
+          tap((data) => {
+            console.log(data);
+            this.getAllUsers();
+            this.closeInsert();
+          }),
+          catchError(error => {
+            this.common.onError(error);
+            return of([]);
+          })
+        )
+        .subscribe();
+      } else {
+        this.userControllerService
         .createUsingPOST1(this.frmUser.value)
         .pipe(
           tap((data) => {
@@ -77,6 +116,7 @@ export class UserComponent implements OnInit {
           })
         )
         .subscribe();
+      }
     }
   }
 

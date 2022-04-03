@@ -1,11 +1,41 @@
-<mat-toolbar color="primary" *ngIf="loginService.isAutenticated()">
-  <span>Security API</span>
-  <span class="spacer"></span>
-  <button (click)="loginService.logout()" mat-icon-button style="margin-right: 20px;">
-    <mat-icon>login</mat-icon>
-    Sair
-  </button>
-</mat-toolbar>
-<router-outlet>
+<!-- Tela de login -->
+<div style="height: 100%;" *ngIf="!loginService.isAutenticated()">
+  <router-outlet></router-outlet>
+</div>
 
-</router-outlet>
+<!-- Telas principais -->
+<div *ngIf="loginService.isAutenticated()">
+  <table style="width: 100%; border: 0px;" cellspacing="0">
+    <tr>
+      <td colspan="2">
+        <mat-toolbar color="primary">
+          <span>Security API</span>
+          <span class="spacer"></span>
+          <button (click)="loginService.logout()" mat-icon-button style="margin-right: 20px;">
+            <mat-icon>login</mat-icon>
+            Sair
+          </button>
+        </mat-toolbar>
+      </td>
+    </tr>
+    <tr>
+      <td [width]="250" style="vertical-align: top; padding-top: 10px;">
+        <mat-card mat-card-content style="margin-left: 5px;">
+          <button mat-button style="width: 100%; text-align: left;" color="secondary" routerLink="user">
+            <mat-icon style="padding-right: 10px;">face</mat-icon>
+            <span>Usuários</span>
+          </button>
+          <button mat-button style="width: 100%; text-align: left;" color="secondary" routerLink="role">
+            <mat-icon style="padding-right: 10px;">group</mat-icon>
+            <span>Perfis</span>
+          </button>
+          <button mat-button style="width: 100%; text-align: left;" color="secondary" routerLink="permission">
+            <mat-icon style="padding-right: 10px;">security</mat-icon>
+            <span>Permissões</span>
+          </button>
+        </mat-card>
+      </td>
+      <td style="vertical-align: top;"><router-outlet></router-outlet></td>
+    </tr>
+  </table>
+</div>

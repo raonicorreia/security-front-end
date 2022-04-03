@@ -1,9 +1,8 @@
-import { SharedModule } from './../shared/shared.module';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms';
-import { AppMaterialModule } from '../shared/app-material/app-material.module';
 
+import { AppMaterialModule } from '../shared/app-material/app-material.module';
+import { SharedModule } from './../shared/shared.module';
 import { UserRoutingModule } from './user-routing.module';
 import { UserComponent } from './user.component';
 
@@ -14,7 +13,6 @@ import { UserComponent } from './user.component';
   imports: [
     CommonModule,
     UserRoutingModule,
-    ReactiveFormsModule,
     AppMaterialModule,
     SharedModule
   ],
