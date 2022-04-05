@@ -6,6 +6,7 @@ import { LoginControllerService, UserCredentials } from 'lib/sec-api';
 import { catchError, of, tap } from 'rxjs';
 import { LoginService } from '../service/login/login.service';
 import { CommonService } from '../service/common/common.service';
+import { AesEncryptionService } from '../service/common/aes-encryption.service';
 
 @Component({
   selector: 'app-login',
@@ -14,7 +15,7 @@ import { CommonService } from '../service/common/common.service';
 })
 export class LoginComponent implements OnInit {
   frmGroupLogin: FormGroup;
-  user: UserCredentials = {username:'admin', password:'FUxqDqZdVVbt/SR+F0y8tQ=='};
+  user: UserCredentials = {username:'admin', password:'123456'};
   //user: UserCredentials = {};
   token: string = '';
   messageErro: string = '';
@@ -24,7 +25,8 @@ export class LoginComponent implements OnInit {
     private loginService: LoginService,
     private formBuilder: FormBuilder,
     private router: Router,
-    public common: CommonService
+    public common: CommonService,
+    public aesEncrypt: AesEncryptionService
   ) {
     this.frmGroupLogin = this.formBuilder.group({
       username: [this.user.username, [Validators.required]],
@@ -36,8 +38,12 @@ export class LoginComponent implements OnInit {
 
   onSubmit() {
     if (this.frmGroupLogin.valid) {
+      let user = {
+        username: this.frmGroupLogin.value.username,
+        password: this.aesEncrypt.encrypt(this.frmGroupLogin.value.password),
+      }
       this.loginController
-        .loginUsingPOST(this.frmGroupLogin.value)
+        .loginUsingPOST(user)
         .pipe(
           catchError((error) => {
             this.common.onError(error);

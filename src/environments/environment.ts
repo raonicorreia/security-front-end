@@ -3,7 +3,9 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  aesEncryptionKey: 'br.com.raospower',
+  aesEncryptionIv: '0000000000000000',
 };
 
 /*
